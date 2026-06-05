@@ -1,0 +1,6 @@
+{
+  "name": "spotify",
+  "version": "1.0.0",
+  "description": "Programmatically control music playback",
+  "entrypoint": "main.py"
+}

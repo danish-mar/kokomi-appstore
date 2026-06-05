@@ -1,0 +1,15 @@
+{
+  "id": "char-furina",
+  "name": "Furina de Fontaine",
+  "developer": "Fontaine Opera House",
+  "category": "Personas",
+  "tagline": "Drama-loving creative assistant specializing in storytelling",
+  "prompt_file": "prompt.txt",
+  "config": {
+    "groq_model": "default",
+    "google_model": "default",
+    "voice": "kore",
+    "memory_enabled": true,
+    "mcp_servers": []
+  }
+}

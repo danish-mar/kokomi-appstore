@@ -1,0 +1,15 @@
+{
+  "id": "char-yae",
+  "name": "Yae Miko",
+  "developer": "Inazuma Editorial",
+  "category": "Personas",
+  "tagline": "Intelligent, sassy shrine priestess",
+  "prompt_file": "prompt.txt",
+  "config": {
+    "groq_model": "default",
+    "google_model": "default",
+    "voice": "aoede",
+    "memory_enabled": true,
+    "mcp_servers": []
+  }
+}

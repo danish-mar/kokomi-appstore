@@ -1,0 +1,50 @@
+{
+  "apps": [
+    {
+      "id": "weather",
+      "name": "Weather",
+      "path": "apps/weather",
+      "category": "Apps",
+      "developer": "Kokomi Systems",
+      "tagline": "Simple weather forecast app",
+      "icon": "fa-cloud-sun",
+      "rating": "4.9",
+      "reviews": "120"
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify Connect",
+      "path": "apps/spotify",
+      "category": "Apps",
+      "developer": "Miko Publishing",
+      "tagline": "Programmatically control music playback",
+      "icon": "fa-music",
+      "rating": "4.7",
+      "reviews": "85"
+    }
+  ],
+  "personas": [
+    {
+      "id": "char-yae",
+      "name": "Yae Miko",
+      "path": "personas/yae_miko",
+      "category": "Personas",
+      "developer": "Inazuma Editorial",
+      "tagline": "Intelligent, sassy shrine priestess",
+      "icon": "fa-wand-magic-sparkles",
+      "rating": "5.0",
+      "reviews": "540"
+    },
+    {
+      "id": "char-furina",
+      "name": "Furina de Fontaine",
+      "path": "personas/furina",
+      "category": "Personas",
+      "developer": "Fontaine Opera House",
+      "tagline": "Drama-loving creative assistant specializing in storytelling",
+      "icon": "fa-masks-theater",
+      "rating": "4.9",
+      "reviews": "410"
+    }
+  ]
+}

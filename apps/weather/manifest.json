@@ -1,0 +1,6 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "Simple weather forecast app",
+  "entrypoint": "main.py"
+}
