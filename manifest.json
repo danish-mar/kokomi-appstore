@@ -9,7 +9,13 @@
       "tagline": "Simple weather forecast app",
       "icon": "fa-cloud-sun",
       "rating": "4.9",
-      "reviews": "120"
+      "reviews": "120",
+      "description": "Get real-time weather forecasts directly from the wttr.in endpoint. Features automatic JSON formatting and clean text conversion ideal for reasoning model context inputs.",
+      "specs": {
+        "compatibility": "Python 3.8+",
+        "size": "8.5 KB",
+        "installed_version": "v1.0.0"
+      }
     },
     {
       "id": "spotify",
@@ -20,7 +26,13 @@
       "tagline": "Programmatically control music playback",
       "icon": "fa-music",
       "rating": "4.7",
-      "reviews": "85"
+      "reviews": "85",
+      "description": "Simulates playback control features for Spotify. Allows roleplay character personas to mock play, pause, and check status of music songs.",
+      "specs": {
+        "compatibility": "Any Python runtime",
+        "size": "4.2 KB",
+        "installed_version": "v1.0.0"
+      }
     }
   ],
   "personas": [
@@ -33,7 +45,13 @@
       "tagline": "Intelligent, sassy shrine priestess",
       "icon": "fa-wand-magic-sparkles",
       "rating": "5.0",
-      "reviews": "540"
+      "reviews": "540",
+      "description": "Yae Miko is the Grand Priestess of Grand Narukami Shrine. Beneath her elegant appearance lies an exceptionally sharp intellect, cunning wit, and playful demeanor.",
+      "specs": {
+        "compatibility": "Groq / Gemini",
+        "size": "System Prompt",
+        "installed_version": "v1.0.0"
+      }
     },
     {
       "id": "char-furina",
@@ -44,7 +62,13 @@
       "tagline": "Drama-loving creative assistant specializing in storytelling",
       "icon": "fa-masks-theater",
       "rating": "4.9",
-      "reviews": "410"
+      "reviews": "410",
+      "description": "A highly creative character with a flare for dramatic prose, narrative outline construction, and artistic script presentations. Speaks with immense theatrical grandeur.",
+      "specs": {
+        "compatibility": "Groq / Gemini / Local",
+        "size": "System Prompt",
+        "installed_version": "v1.0.0"
+      }
     }
   ]
 }
