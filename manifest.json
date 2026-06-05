@@ -33,6 +33,23 @@
         "size": "4.2 KB",
         "installed_version": "v1.0.0"
       }
+    },
+    {
+      "id": "todo",
+      "name": "Task Planner",
+      "path": "apps/todo",
+      "category": "Apps",
+      "developer": "Kokomi Systems",
+      "tagline": "JSON-backed hierarchical task manager",
+      "icon": "fa-list-check",
+      "rating": "4.9",
+      "reviews": "14",
+      "description": "A powerful hierarchical todo planner. Supports creating lists, tasks, nested subtasks, and updates. Saves state in a local JSON structure.",
+      "specs": {
+        "compatibility": "Python 3.8+",
+        "size": "2.4 KB",
+        "installed_version": "v1.0.0"
+      }
     }
   ],
   "personas": [
