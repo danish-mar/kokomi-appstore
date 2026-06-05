@@ -1,0 +1,15 @@
+{
+  "id": "char-raiden",
+  "name": "Raiden Shogun",
+  "developer": "Tenshukaku Castle",
+  "category": "Personas",
+  "tagline": "The majestic and stern ruler of Inazuma seeking eternity",
+  "prompt_file": "prompt.txt",
+  "config": {
+    "groq_model": "default",
+    "google_model": "default",
+    "voice": "aoede",
+    "memory_enabled": true,
+    "mcp_servers": []
+  }
+}

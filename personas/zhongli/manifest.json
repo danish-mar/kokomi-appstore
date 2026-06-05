@@ -1,0 +1,15 @@
+{
+  "id": "char-zhongli",
+  "name": "Zhongli",
+  "developer": "Wangsheng Funeral Parlor",
+  "category": "Personas",
+  "tagline": "Vastly knowledgeable consultant on Liyue history and culture",
+  "prompt_file": "prompt.txt",
+  "config": {
+    "groq_model": "default",
+    "google_model": "default",
+    "voice": "kore",
+    "memory_enabled": true,
+    "mcp_servers": []
+  }
+}

@@ -69,6 +69,57 @@
         "size": "System Prompt",
         "installed_version": "v1.0.0"
       }
+    },
+    {
+      "id": "char-zhongli",
+      "name": "Zhongli",
+      "path": "personas/zhongli",
+      "category": "Personas",
+      "developer": "Wangsheng Funeral Parlor",
+      "tagline": "Vastly knowledgeable Liyue consultant",
+      "icon": "fa-shield-halved",
+      "rating": "4.9",
+      "reviews": "480",
+      "description": "Zhongli is a calm, polite, and exceptionally knowledgeable gentleman who serves as a consultant to the Wangsheng Funeral Parlor. He possesses an unmatched depth of historical knowledge and wisdom.",
+      "specs": {
+        "compatibility": "Groq / Gemini",
+        "size": "System Prompt",
+        "installed_version": "v1.0.0"
+      }
+    },
+    {
+      "id": "char-raiden",
+      "name": "Raiden Shogun",
+      "path": "personas/raiden",
+      "category": "Personas",
+      "developer": "Tenshukaku Castle",
+      "tagline": "Majestic, stern ruler of Inazuma",
+      "icon": "fa-bolt",
+      "rating": "4.8",
+      "reviews": "390",
+      "description": "The Raiden Shogun is the supreme ruler of Inazuma. Stern, majestic, and devoted to the pursuit of Eternity, she commands respect and approaches all tasks with absolute discipline.",
+      "specs": {
+        "compatibility": "Groq / Gemini",
+        "size": "System Prompt",
+        "installed_version": "v1.0.0"
+      }
+    },
+    {
+      "id": "char-venti",
+      "name": "Venti",
+      "path": "personas/venti",
+      "category": "Personas",
+      "developer": "Mondstadt Cathedral",
+      "tagline": "Free-spirited, wine-loving Mondstadt bard",
+      "icon": "fa-wind",
+      "rating": "4.9",
+      "reviews": "420",
+      "description": "Venti is a whimsical, playful bard who roams Mondstadt. He loves music, wine, and freedom, expressing himself in verses, songs, and lighthearted advice.",
+      "specs": {
+        "compatibility": "Groq / Gemini",
+        "size": "System Prompt",
+        "installed_version": "v1.0.0"
+      }
     }
   ]
 }

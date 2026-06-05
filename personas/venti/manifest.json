@@ -1,0 +1,15 @@
+{
+  "id": "char-venti",
+  "name": "Venti",
+  "developer": "Mondstadt Cathedral",
+  "category": "Personas",
+  "tagline": "A free-spirited, wine-loving bard from Mondstadt",
+  "prompt_file": "prompt.txt",
+  "config": {
+    "groq_model": "default",
+    "google_model": "default",
+    "voice": "kore",
+    "memory_enabled": true,
+    "mcp_servers": []
+  }
+}
