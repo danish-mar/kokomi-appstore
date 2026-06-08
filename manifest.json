@@ -50,6 +50,23 @@
         "size": "2.4 KB",
         "installed_version": "v1.0.0"
       }
+    },
+    {
+      "id": "canvas",
+      "name": "Mermaid Canvas",
+      "path": "apps/canvas",
+      "category": "Apps",
+      "developer": "Kokomi Systems",
+      "tagline": "Create, save and render Mermaid.js diagrams",
+      "icon": "fa-diagram-project",
+      "rating": "5.0",
+      "reviews": "8",
+      "description": "A tool that allows character personas to design, save, edit, and render interactive Mermaid.js flowcharts, sequence diagrams, and architecture graphs. Saves diagram sources and compiles them to high-resolution PNG representations.",
+      "specs": {
+        "compatibility": "Python 3.8+",
+        "size": "4.5 KB",
+        "installed_version": "v1.0.0"
+      }
     }
   ],
   "personas": [
