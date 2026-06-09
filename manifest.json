@@ -67,6 +67,23 @@
         "size": "4.5 KB",
         "installed_version": "v1.0.0"
       }
+    },
+    {
+      "id": "finance",
+      "name": "Finance Tracker",
+      "path": "apps/finance",
+      "category": "Apps",
+      "developer": "Kokomi Systems",
+      "tagline": "Track income, expenses, and monthly category budgets",
+      "icon": "fa-wallet",
+      "rating": "4.9",
+      "reviews": "18",
+      "description": "A powerful local financial ledger tool. Enables characters to track transactions (income/expenses), establish monthly budgets, and analyze spending patterns.",
+      "specs": {
+        "compatibility": "Python 3.8+",
+        "size": "5.2 KB",
+        "installed_version": "v1.0.0"
+      }
     }
   ],
   "personas": [
