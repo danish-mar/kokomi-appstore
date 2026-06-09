@@ -8,12 +8,36 @@
   "icon": "fa-diagram-project",
   "rating": "5.0",
   "reviews": "8",
-  "description": "A tool that allows character personas to design, save, edit, and render interactive Mermaid.js flowcharts, sequence diagrams, and architecture graphs. Saves diagram sources and compiles them to high-resolution PNG representations.",
+  "description": "A tool that allows character personas to design, save, edit, and render interactive Mermaid.js flowcharts, sequence diagrams, and architecture graphs. Actions: save_diagram (needs name, code, render), read_diagram (needs name), list_diagrams, delete_diagram (needs name).",
   "specs": {
     "compatibility": "Python 3.8+",
     "size": "4.5 KB",
     "installed_version": "v1.0.0"
   },
   "entrypoint": "main.py",
-  "enabled": true
+  "enabled": true,
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["save_diagram", "read_diagram", "list_diagrams", "delete_diagram"],
+        "description": "The canvas action to perform."
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the diagram (alphanumeric/hyphen/underscore)."
+      },
+      "code": {
+        "type": "string",
+        "description": "The raw Mermaid diagram syntax (required for save_diagram)."
+      },
+      "render": {
+        "type": "boolean",
+        "description": "Whether to render the diagram as a PNG using QuickChart (optional, defaults to true)."
+      }
+    },
+    "required": ["action"],
+    "additionalProperties": true
+  }
 }

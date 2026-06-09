@@ -8,12 +8,61 @@
   "icon": "fa-wallet",
   "rating": "4.9",
   "reviews": "18",
-  "description": "A powerful local financial ledger tool. Enables characters to track transactions (income/expenses), establish monthly budgets, and analyze spending patterns.",
+  "description": "A local financial ledger tool. Actions: add_transaction (needs type, amount, category, description, date), get_summary (needs start_date, end_date, category), list_transactions (needs limit, type, category), delete_transaction (needs id), set_budget (needs category, limit), get_budgets.",
   "specs": {
     "compatibility": "Python 3.8+",
     "size": "5.2 KB",
     "installed_version": "v1.0.0"
   },
   "entrypoint": "main.py",
-  "enabled": true
+  "enabled": true,
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["add_transaction", "get_summary", "list_transactions", "delete_transaction", "set_budget", "get_budgets"],
+        "description": "The financial action to perform."
+      },
+      "type": {
+        "type": "string",
+        "enum": ["income", "expense"],
+        "description": "Required for add_transaction. Type of the transaction."
+      },
+      "amount": {
+        "type": "number",
+        "description": "Required for add_transaction. The numeric value of the transaction."
+      },
+      "category": {
+        "type": "string",
+        "description": "Required for set_budget, optional for add_transaction, get_summary, list_transactions. The budget/expense category (e.g., Food, Entertainment, Salary)."
+      },
+      "description": {
+        "type": "string",
+        "description": "Optional for add_transaction. A brief description of the transaction."
+      },
+      "date": {
+        "type": "string",
+        "description": "Optional for add_transaction. Date format YYYY-MM-DD. Defaults to current date if omitted."
+      },
+      "start_date": {
+        "type": "string",
+        "description": "Optional for get_summary. Filter summary starting from YYYY-MM-DD."
+      },
+      "end_date": {
+        "type": "string",
+        "description": "Optional for get_summary. Filter summary ending on YYYY-MM-DD."
+      },
+      "limit": {
+        "type": "number",
+        "description": "Required for set_budget, optional limit count for list_transactions."
+      },
+      "id": {
+        "type": "string",
+        "description": "Required for delete_transaction. The unique transaction ID."
+      }
+    },
+    "required": ["action"],
+    "additionalProperties": true
+  }
 }
