@@ -6,9 +6,17 @@ from datetime import datetime
 
 DATA_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "finance_data.json"))
 
+DEFAULT_CATEGORIES = {
+    "Food": {"description": "Food, groceries, dining"},
+    "Entertainment": {"description": "Games, movies, hobbies"},
+    "Utilities": {"description": "Bills, phone, electricity, internet"},
+    "Salary": {"description": "Regular job income, payroll"},
+    "General": {"description": "Miscellaneous or uncategorized transactions"}
+}
+
 def load_data():
     if not os.path.exists(DATA_FILE):
-        return {"transactions": [], "budgets": {}}
+        return {"transactions": [], "budgets": {}, "categories": DEFAULT_CATEGORIES.copy()}
     try:
         with open(DATA_FILE, "r") as f:
             data = json.load(f)
@@ -16,9 +24,11 @@ def load_data():
                 data["transactions"] = []
             if "budgets" not in data:
                 data["budgets"] = {}
+            if "categories" not in data or not isinstance(data["categories"], dict) or not data["categories"]:
+                data["categories"] = DEFAULT_CATEGORIES.copy()
             return data
     except Exception:
-        return {"transactions": [], "budgets": {}}
+        return {"transactions": [], "budgets": {}, "categories": DEFAULT_CATEGORIES.copy()}
 
 def save_data(data):
     os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
@@ -33,11 +43,17 @@ def run(args):
     data = load_data()
     transactions = data.get("transactions", [])
     budgets = data.get("budgets", {})
+    categories = data.get("categories", {})
+
+    # Helper function to clean category name
+    def clean_cat_name(name):
+        return name.strip() if name else ""
 
     if action == "add_transaction":
         t_type = args.get("type") # "income" or "expense"
         amount_raw = args.get("amount")
-        category = args.get("category", "General")
+        category_raw = args.get("category", "General")
+        category = clean_cat_name(category_raw)
         description = args.get("description", "")
         date_str = args.get("date") # "YYYY-MM-DD" or empty for today
 
@@ -53,6 +69,22 @@ def run(args):
                 return {"error": "'amount' must be positive"}
         except ValueError:
             return {"error": "Invalid 'amount' format"}
+
+        # Validate category exists
+        if category not in categories:
+            # Check case-insensitively
+            matched_cat = None
+            for key in categories:
+                if key.lower() == category.lower():
+                    matched_cat = key
+                    break
+            if matched_cat:
+                category = matched_cat
+            else:
+                return {
+                    "error": f"Category '{category}' does not exist. Available categories are: {list(categories.keys())}. "
+                             f"Please create the category first using 'create_category' action."
+                }
 
         if not date_str:
             date_str = datetime.today().strftime('%Y-%m-%d')
@@ -114,11 +146,11 @@ def run(args):
         net_savings = total_income - total_expense
 
         # Breakdown by category
-        categories = {}
+        breakdown = {}
         for t in filtered:
             cat = t["category"]
-            categories.setdefault(cat, {"income": 0.0, "expense": 0.0})
-            categories[cat][t["type"]] += t["amount"]
+            breakdown.setdefault(cat, {"income": 0.0, "expense": 0.0})
+            breakdown[cat][t["type"]] += t["amount"]
 
         return {
             "success": True,
@@ -131,7 +163,7 @@ def run(args):
                 "total_expense": total_expense,
                 "net_savings": net_savings
             },
-            "breakdown": categories
+            "breakdown": breakdown
         }
 
     elif action == "list_transactions":
@@ -171,12 +203,170 @@ def run(args):
         save_data(data)
         return {"success": True, "message": f"Deleted transaction '{tx_id}'"}
 
+    # --- CATEGORY ACTIONS ---
+
+    elif action == "create_category":
+        category_raw = args.get("category")
+        description = args.get("description", "")
+        limit_raw = args.get("limit")
+
+        if not category_raw:
+            return {"error": "Missing 'category' parameter"}
+        
+        category = clean_cat_name(category_raw)
+        if not category:
+            return {"error": "Category name cannot be empty"}
+
+        if category in categories:
+            return {"error": f"Category '{category}' already exists"}
+
+        categories[category] = {"description": description}
+        
+        if limit_raw is not None:
+            try:
+                limit = float(limit_raw)
+                if limit < 0:
+                    return {"error": "Budget limit cannot be negative"}
+                budgets[category] = limit
+            except ValueError:
+                return {"error": "Invalid 'limit' format"}
+
+        save_data(data)
+        return {
+            "success": True,
+            "message": f"Created category '{category}'" + (f" with a budget of {limit:.2f}" if limit_raw is not None else ""),
+            "categories": categories,
+            "budgets": budgets
+        }
+
+    elif action == "get_categories" or action == "list_categories":
+        current_month = datetime.today().strftime('%Y-%m-%d')[:7]
+        result_cats = {}
+        for cat, details in categories.items():
+            limit = budgets.get(cat, 0.0)
+            spent = sum(
+                t["amount"] for t in transactions
+                if t["type"] == "expense" and t["category"] == cat and t["date"].startswith(current_month)
+            )
+            result_cats[cat] = {
+                "description": details.get("description", ""),
+                "budget_limit": limit if cat in budgets else None,
+                "spent_this_month": spent,
+                "remaining_budget": max(0.0, limit - spent) if cat in budgets else None
+            }
+        return {
+            "success": True,
+            "categories": result_cats
+        }
+
+    elif action == "update_category":
+        category_raw = args.get("category")
+        new_name_raw = args.get("new_name")
+        description = args.get("description")
+        limit_raw = args.get("limit")
+
+        if not category_raw:
+            return {"error": "Missing 'category' parameter"}
+
+        category = clean_cat_name(category_raw)
+        if category not in categories:
+            return {"error": f"Category '{category}' not found"}
+
+        if description is not None:
+            categories[category]["description"] = description
+
+        if limit_raw is not None:
+            try:
+                limit = float(limit_raw)
+                if limit < 0:
+                    return {"error": "Budget limit cannot be negative"}
+                budgets[category] = limit
+            except ValueError:
+                return {"error": "Invalid 'limit' format"}
+
+        msg = f"Updated category '{category}'"
+        
+        if new_name_raw:
+            new_name = clean_cat_name(new_name_raw)
+            if not new_name:
+                return {"error": "New category name cannot be empty"}
+            if new_name in categories and new_name != category:
+                return {"error": f"Category '{new_name}' already exists"}
+
+            # Rename key
+            categories[new_name] = categories.pop(category)
+            
+            # Update budgets
+            if category in budgets:
+                budgets[new_name] = budgets.pop(category)
+                
+            # Update existing transactions
+            rename_count = 0
+            for t in transactions:
+                if t["category"] == category:
+                    t["category"] = new_name
+                    rename_count += 1
+            
+            msg = f"Renamed category '{category}' to '{new_name}' and updated {rename_count} transactions"
+            category = new_name
+
+        save_data(data)
+        return {
+            "success": True,
+            "message": msg,
+            "category": category,
+            "details": categories[category],
+            "budget": budgets.get(category)
+        }
+
+    elif action == "delete_category":
+        category_raw = args.get("category")
+        merge_to_raw = args.get("merge_to", "General")
+
+        if not category_raw:
+            return {"error": "Missing 'category' parameter"}
+
+        category = clean_cat_name(category_raw)
+        if category not in categories:
+            return {"error": f"Category '{category}' not found"}
+
+        if category == "General":
+            return {"error": "Cannot delete the default 'General' category"}
+
+        merge_to = clean_cat_name(merge_to_raw)
+        if merge_to not in categories:
+            return {"error": f"Merge-target category '{merge_to}' does not exist"}
+
+        # Delete category details
+        del categories[category]
+        
+        # Delete budget
+        if category in budgets:
+            del budgets[category]
+
+        # Update matching transactions to target category
+        merge_count = 0
+        for t in transactions:
+            if t["category"] == category:
+                t["category"] = merge_to
+                merge_count += 1
+
+        save_data(data)
+        return {
+            "success": True,
+            "message": f"Deleted category '{category}' and merged {merge_count} transactions into '{merge_to}'"
+        }
+
     elif action == "set_budget":
-        category = args.get("category")
+        # Keep set_budget action for backward compatibility
+        category = clean_cat_name(args.get("category"))
         limit_raw = args.get("limit")
 
         if not category or limit_raw is None:
             return {"error": "Missing 'category' or 'limit' parameters"}
+
+        if category not in categories:
+            return {"error": f"Category '{category}' does not exist. Please create it first."}
 
         try:
             limit = float(limit_raw)
@@ -190,7 +380,8 @@ def run(args):
         return {"success": True, "message": f"Set budget for '{category}' to {limit:.2f}", "budgets": budgets}
 
     elif action == "get_budgets":
-        current_month = datetime.today().strftime('%Y-%m-%d')[:7] # YYYY-MM
+        # Keep get_budgets action for backward compatibility
+        current_month = datetime.today().strftime('%Y-%m-%d')[:7]
         status = {}
         for cat, limit in budgets.items():
             spent = sum(

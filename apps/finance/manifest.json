@@ -8,7 +8,7 @@
   "icon": "fa-wallet",
   "rating": "4.9",
   "reviews": "18",
-  "description": "A local financial ledger tool. Actions: add_transaction (needs type, amount, category, description, date), get_summary (needs start_date, end_date, category), list_transactions (needs limit, type, category), delete_transaction (needs id), set_budget (needs category, limit), get_budgets.",
+  "description": "A local financial ledger tool. Actions: add_transaction (needs type, amount, category, description, date), get_summary (needs start_date, end_date, category), list_transactions (needs limit, type, category), delete_transaction (needs id), create_category (needs category, description, limit), list_categories, update_category (needs category, new_name, description, limit), delete_category (needs category, merge_to).",
   "specs": {
     "compatibility": "Python 3.8+",
     "size": "5.2 KB",
@@ -21,7 +21,19 @@
     "properties": {
       "action": {
         "type": "string",
-        "enum": ["add_transaction", "get_summary", "list_transactions", "delete_transaction", "set_budget", "get_budgets"],
+        "enum": [
+          "add_transaction", 
+          "get_summary", 
+          "list_transactions", 
+          "delete_transaction", 
+          "create_category", 
+          "list_categories", 
+          "get_categories",
+          "update_category", 
+          "delete_category",
+          "set_budget", 
+          "get_budgets"
+        ],
         "description": "The financial action to perform."
       },
       "type": {
@@ -35,11 +47,19 @@
       },
       "category": {
         "type": "string",
-        "description": "Required for set_budget, optional for add_transaction, get_summary, list_transactions. The budget/expense category (e.g., Food, Entertainment, Salary)."
+        "description": "The target budget/expense category (e.g., Food, Entertainment, Salary). Required for add_transaction, set_budget, create_category, update_category, delete_category."
+      },
+      "new_name": {
+        "type": "string",
+        "description": "Optional for update_category. The new name for the category."
+      },
+      "merge_to": {
+        "type": "string",
+        "description": "Optional for delete_category. The category name to merge existing transactions into (defaults to General)."
       },
       "description": {
         "type": "string",
-        "description": "Optional for add_transaction. A brief description of the transaction."
+        "description": "Optional for add_transaction, create_category, update_category. Description of the transaction or category."
       },
       "date": {
         "type": "string",
@@ -55,7 +75,7 @@
       },
       "limit": {
         "type": "number",
-        "description": "Required for set_budget, optional limit count for list_transactions."
+        "description": "Optional for create_category, update_category, set_budget. Monthly budget limit for the category."
       },
       "id": {
         "type": "string",
